@@ -1,0 +1,44 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: api-gateway-server
+  cloud:
+    gateway:
+      routes:
+        - id: person-service
+          uri: lb://person-service
+          predicates:
+            - Path=/persons/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: person-service
+                fallbackuri: forward:/personServiceFallBack
+        - id: passport-service
+          uri: lb://passport-service
+          predicates:
+            - Path=/passports/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: passport-service
+                fallbackuri: forward:/passportServiceFallBack
+
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
