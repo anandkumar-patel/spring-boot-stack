@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        #video-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        video {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <h1>Video Player</h1>
+        <input type="text" id="filename" placeholder="Enter video filename" />
+        <button onclick="loadVideo()">Load Video</button>
+        <div id="video-player"></div>
+    </div>
+
+    <script>
+        function loadVideo() {
+            const filename = document.getElementById('filename').value;
+            const videoPlayer = document.getElementById('video-player');
+
+            // Remove any existing video element
+            videoPlayer.innerHTML = '';
+
+            if (filename) {
+                const videoElement = document.createElement('video');
+                videoElement.controls = true;
+                videoElement.src = `/play/video?filename=${encodeURIComponent(filename)}`;
+                
+                videoPlayer.appendChild(videoElement);
+            } else {
+                alert('Please enter a video filename.');
+            }
+        }
+    </script>
+</body>
+</html>

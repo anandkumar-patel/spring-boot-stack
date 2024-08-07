@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>File Upload</title>
+</head>
+<body>
+	<div id="divBasic" style="border: thin solid black">
+		<h3>MVC File Upload/Download</h3>
+		<form method="POST" enctype="multipart/form-data" action="/mvc/upload">
+			<input type="file" name="filename" />
+			<button type="submit">Upload</button>
+		</form>
+		<br>
+		<form method="GET" action="/mvc/download">
+			<input type="text" name="filename"
+				placeholder="Enter filename to download" />
+			<button type="submit">Download</button>
+		</form>
+		<br>
+	</div>
+	<br>
+</body>
+</html>

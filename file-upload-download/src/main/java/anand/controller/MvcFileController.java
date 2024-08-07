@@ -1,10 +1,10 @@
 package anand.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -14,44 +14,52 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/api/files")
-public class RestFileDownloadUploadController {
+@RequestMapping("/mvc")
+public class MvcFileController {
 
 	@Value("${file.upload-dir}")
 	private String uploadDir;
-	
-	
-	
-	@GetMapping({"/download","/upload"})
-	public String showDownloadPage() {
-		return "downloadupload";
+
+	@GetMapping("/status")
+	public String uploadStatus() {
+		return "uploadstatus";
 	}
 
 	@PostMapping("/upload")
-	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-		try {
-			Path copyLocation = Paths
-					.get(uploadDir + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
-			Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
-			return ResponseEntity.ok("File uploaded successfully: " + file.getOriginalFilename());
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Could not upload the file: " + file.getOriginalFilename() + "! " + e.getMessage());
+	public String handleFileUpload(@RequestParam("filename") MultipartFile file, RedirectAttributes redirectAttributes) {
+		if (file.isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+			return "redirect:status";
 		}
+		try {
+			// Save the file
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(uploadDir + File.separator + file.getOriginalFilename());
+			System.out.println("file path : " + path.toString());
+			Files.write(path, bytes);
+
+			redirectAttributes.addFlashAttribute("message",
+					"You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'");
+		}
+
+		return "redirect:status";
 	}
-	
-	@GetMapping("/download/{filename:.+}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
+
+	@GetMapping("/download")
+	public ResponseEntity<Resource> downloadFile(@RequestParam("filename") String filename) {
 		try {
 			Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
 			Resource resource = new UrlResource(filePath.toUri());

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>File Upload</title>
+</head>
+<body>
+	<div id="divAdv" style="border:thin solid black">
+		<h3>File Upload/Download with validation and security</h3>
+		<div th:if="${message}">
+			<p th:text="${message}"></p>
+		</div>
+		<form method="POST" enctype="multipart/form-data"
+			action="/adv/upload">
+			<input type="file" name="filename" />
+			<button type="submit">Upload</button>
+		</form>
+		<br>
+		<form method="GET" action="/adv/download">
+			<input type="text" name="filename"
+				placeholder="Enter filename to download" />
+			<button type="submit">Download</button>
+		</form>
+	</div>
+	<br>
+</body>
+</html>

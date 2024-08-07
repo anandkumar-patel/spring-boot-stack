@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>File Upload</title>
+</head>
+<body>
+	<div id="divBasic" style="border: thin solid black">
+		<h3>Rest File Upload</h3>
+		<div th:if="${message}">
+			<p th:text="${message}"></p>
+		</div>
+		<form method="POST" enctype="multipart/form-data" action="/rest/upload">
+			<input type="file" name="filename" />
+			<button type="submit">Upload</button>
+		</form>
+		<br>
+		<h3>File Download : StreamingResponseBody</h3>
+		<form method="GET" action="/rest/download/stream">
+			<input type="text" name="filename"
+				placeholder="Enter filename to download" />
+			<button type="submit">Download</button>
+		</form>
+		<br>
+		<h3>File Download : Resource</h3>
+		<form method="GET" action="/rest/download/resource">
+			<input type="text" name="filename"
+				placeholder="Enter filename to download" />
+			<button type="submit">Download</button>
+		</form>
+		<br>
+		<h3>File Download : byte[]</h3>
+		<form method="GET" action="/rest/download/byte">
+			<input type="text" name="filename"
+				placeholder="Enter filename to download" />
+			<button type="submit">Download</button>
+		</form>
+		<br>
+		<h3>File Download : InputStreamResource </h3>
+		<form method="GET" action="/rest/download/inputstream">
+			<input type="text" name="filename"
+				placeholder="Enter filename to download" />
+			<button type="submit">Download</button>
+		</form>
+		<br>
+		<h3>File Download : void</h3>
+		<form method="GET" action="/rest/download/void">
+			<input type="text" name="filename"
+				placeholder="Enter filename to download" />
+			<button type="submit">Download</button>
+		</form>
+		<br>
+	</div>
+	<br>
+</body>
+</html>

@@ -28,7 +28,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Controller
 @Validated
-@RequestMapping("/adv/files")
+@RequestMapping("/adv")
 public class AdvanceFileController {
 
 	@Value("${file.upload-dir}")
@@ -36,23 +36,13 @@ public class AdvanceFileController {
 	
 	@Autowired
 	private FileMetadataRepository fileMetadataRepository;
-	
-	@GetMapping({"/", "/upload"})
-	public String showUploadPage() {
-		return "downloadupload";
-	}
-	
-	@GetMapping("/status")
-    public String uploadStatus() {
-        return "uploadstatus";
-    }
 
 	@PostMapping("/upload")
-	public String uploadFile(@RequestParam("file") @NotNull MultipartFile file, RedirectAttributes redirectAttributes) {
+	public String uploadFile(@RequestParam("filename") @NotNull MultipartFile file, RedirectAttributes redirectAttributes) {
 		// File validation
 		if (file.isEmpty() || !isValidFileType(file.getContentType())) {
 			redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-			return "redirect:status";
+			return "redirect:/adv";
 		}
 
 		try {
@@ -73,7 +63,7 @@ public class AdvanceFileController {
 			redirectAttributes.addFlashAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'");
 		}
 
-		return "redirect:";
+		return "redirect:/adv";
 	}
 
 	@GetMapping("/download")
