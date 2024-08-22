@@ -1,0 +1,10 @@
+/.metadata/
+api-gateway-server/.mvn/
+cloud-config-server/.mvn/
+eureka-server/.mvn/
+hystrix-dashboard/.mvn/
+passport-service/.mvn/
+person-service/.mvn/
+hms-elasticsearch/.mvn/
+kafa-integration/.mvn/
+redis-integration/.mvn/
