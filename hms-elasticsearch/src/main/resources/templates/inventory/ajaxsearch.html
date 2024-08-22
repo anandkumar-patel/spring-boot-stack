@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Inventory List</title>
+<script src="/js/inventory.js"></script>
+</head>
+<body>
+	<a th:href="@{/inventory}">Back to Inventory List</a>
+	<a th:href="@{/inventory/add}">Add New Item</a>
+	<a th:href="@{/inventory/search-page}">Back to Search Page</a>
+	<h1>Get Item details</h1>
+	<input type="text" id="search-box" placeholder="Search inventory...">
+	<ul id="search-suggestions"></ul>
+	<table id="details-table">
+		<!-- Details will be populated here -->
+	</table>
+</body>
+</html>

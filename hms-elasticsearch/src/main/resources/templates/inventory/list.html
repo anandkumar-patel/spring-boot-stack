@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Inventory List</title>
+</head>
+<body>
+	<a th:href="@{/inventory/add}">Add New Item</a>
+	<a th:href="@{/inventory/search-page}">Back to Search Page</a>
+	<a th:href="@{/inventory/ajax-search-page}">Back to (AJAX)Search Page</a>
+	
+	<h2 th:text="${headerData}">Complete Inventory List</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Quantity</th>
+				<th>Location</th>
+				<th>SKU</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="item : ${items}">
+				<td th:text="${item.name}">Name</td>
+				<td th:text="${item.description}">Description</td>
+				<td th:text="${item.quantity}">Quantity</td>
+				<td th:text="${item.location}">Location</td>
+				<td th:text="${item.sku}">SKU</td>
+				<td><a th:href="@{/inventory/delete/{id}(id=${item.id})}">Delete</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Inventory List</title>
+</head>
+<body>
+	<a th:href="@{/inventory}">Back to Inventory List</a>
+	<a th:href="@{/inventory/add}">Add New Item</a>
+	<a th:href="@{/inventory/ajax-search-page}">Back to (AJAX)Search Page</a>
+	<h1>Searched Inventory List(from document)</h1>
+	<form method="get" th:action="@{/inventory/search}">
+		<input type="text" name="query" th:value="${query}"
+			placeholder="Search by name, description, or SKU" />
+		<button type="submit">Search</button>
+	</form>
+</body>
+</html>
