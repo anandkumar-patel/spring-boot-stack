@@ -8,3 +8,8 @@ person-service/.mvn/
 hms-elasticsearch/.mvn/
 kafa-integration/.mvn/
 redis-integration/.mvn/
+/.idea
+
+hms-elasticsearch/target/
+kafa-integration/target/
+redis-integration/target/
